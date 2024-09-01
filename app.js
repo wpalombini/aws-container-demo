@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-  res.send(`Hello World v3, ${new Date().toLocaleTimeString()}`);
+  res.send(`Hello World v1 ---- ${new Date().toISOString()}`);
 });
 
 app.listen(3000, () => {
