@@ -37,7 +37,7 @@ resource "aws_ecs_task_definition" "container-demo-task-definition" {
   container_definitions = jsonencode([
     {
       name      = "container-demo-app"
-      image     = "${aws_ecr_repository.container-demo-ecr.repository_url}:1"
+      image     = "${aws_ecr_repository.container-demo-ecr.repository_url}:${local.image_tag}"
       essential = true
       portMappings = [
         {
@@ -49,7 +49,7 @@ resource "aws_ecs_task_definition" "container-demo-task-definition" {
         logDriver = "awslogs"
         options = {
           awslogs-group         = "/ecs/container-demo"
-          awslogs-region        = "ap-southeast-2"
+          awslogs-region        = "${var.aws_region}"
           awslogs-stream-prefix = "ecs"
         }
       }
@@ -59,6 +59,9 @@ resource "aws_ecs_task_definition" "container-demo-task-definition" {
   tags = {
     Name = "container-demo-task"
   }
+
+  # Ensure the docker image is built and pushed before creating the ECS task definition
+  depends_on = [null_resource.docker_push]
 }
 
 # IAM role for ECS task execution
