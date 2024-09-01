@@ -3,7 +3,7 @@ dist
 
 
 # Terraform
-.terraform*
+.terraform
 *.tfstate*
 .tfinit
 .tfplan
